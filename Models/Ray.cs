@@ -11,6 +11,14 @@ namespace RayTracer.Models
     {
         private Vector start;
 
+        public Ray() { }
+
+        public Ray(Vector start, Vector dir)
+        {
+            Start = start;
+            Dir = dir;
+        }
+
         public Vector Start
         {
             get

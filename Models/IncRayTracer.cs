@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using NMF.Expressions.Linq;
+using System.Diagnostics;
 
 namespace RayTracer.Models
 {
@@ -85,15 +86,11 @@ namespace RayTracer.Models
                           let reflectColor = traceRayArgs.Depth >= MaxDepth
                                               ? Color.Make(.5, .5, .5)
                                               : Color.Times(isect.Thing.Surface.Reflect(reflectPos),
-                                                            TraceRay(new TraceRayArgs(new Ray()
-                                                            {
-                                                                Start = reflectPos,
-                                                                Dir = reflectDir
-                                                            },
-                                                                               traceRayArgs.Scene,
-                                                                               traceRayArgs.Depth + 1)))
+                                                            TraceRay(new TraceRayArgs(new Ray(reflectPos, reflectDir),
+                                                                     traceRayArgs.Scene,
+                                                                     traceRayArgs.Depth + 1)))
                           select naturalColors.Sum(reflectColor)
-                         ).DefaultIfEmpty(Color.Background).First());
+                         ).FirstOrDefault());
 
         public static INotifyValue<Color> TraceRayInc(TraceRayArgs rayArgs)
         {
@@ -124,9 +121,10 @@ namespace RayTracer.Models
             {
                 foreach (var pixel in row)
                 {
-                    setPixel(pixel.X, pixel.Y, pixel.Color.Value.ToDrawingColor());
+                    pixel.Color.Successors.SetDummy();
+                    setPixel(pixel.X, pixel.Y, (pixel.Color.Value ?? Color.Background).ToDrawingColor());
 
-                    pixel.Color.ValueChanged += (o, e) => setPixel(pixel.X, pixel.Y, pixel.Color.Value.ToDrawingColor());
+                    pixel.Color.ValueChanged += (o, e) => setPixel(pixel.X, pixel.Y, (pixel.Color.Value ?? Color.Background).ToDrawingColor());
                 }
             }
         }

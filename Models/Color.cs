@@ -69,6 +69,7 @@ namespace RayTracer.Models
 
         public static Color Times(double n, Color v)
         {
+            if (v == null) return null;
             return new Color(n * v.R, n * v.G, n * v.B);
         }
         public static Color Times(Color v1, Color v2)
@@ -78,10 +79,14 @@ namespace RayTracer.Models
 
         public static Color Plus(Color v1, Color v2)
         {
+            if (v1 == null) return v2;
+            if (v2 == null) return v1;
             return new Color(v1.R + v2.R, v1.G + v2.G, v1.B + v2.B);
         }
         public static Color Minus(Color v1, Color v2)
         {
+            if (v2 == null) return v1;
+            if (v1 == null) return new Color(-v2.R, -v2.G, -v2.B);
             return new Color(v1.R - v2.R, v1.G - v2.G, v1.B - v2.B);
         }
 

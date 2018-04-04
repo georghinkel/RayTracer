@@ -16,8 +16,8 @@ namespace RayTracer
         Bitmap bitmapInc;
         PictureBox pictureBoxPoll;
         PictureBox pictureBoxInc;
-        const int width = 10;
-        const int height = 10;
+        const int width = 20;
+        const int height = 20;
 
         public RayTracerForm()
         {
@@ -27,14 +27,14 @@ namespace RayTracer
             pictureBoxPoll = new PictureBox();
             pictureBoxPoll.Location = new Point(0, 0);
             pictureBoxPoll.Size = new Size(300, 300);
-            pictureBoxPoll.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
+            pictureBoxPoll.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             pictureBoxPoll.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBoxPoll.Image = bitmapPoll;
 
             pictureBoxInc = new PictureBox();
             pictureBoxInc.Location = new Point(300, 0);
             pictureBoxInc.Size = new Size(300, 300);
-            pictureBoxInc.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
+            pictureBoxInc.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             pictureBoxInc.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBoxInc.Image = bitmapInc;
 
@@ -87,7 +87,7 @@ namespace RayTracer
             watch.Stop();
             MessageBox.Show(string.Format("Setting new color took {0}ms", watch.ElapsedMilliseconds));
             pictureBoxInc.Invalidate();
-
+            
             watch.Restart();
             rayTracerPoll.Render(scene);
             watch.Stop();
