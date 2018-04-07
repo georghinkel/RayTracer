@@ -11,16 +11,16 @@ namespace RayTracer.Models
     public static class ColorExtensions
     {
         [ObservableProxy(typeof(ColorSum), "Create")]
-        public static Color Sum(this INotifyEnumerable<Color> colors, Color seed)
+        public static Color Sum(this IEnumerableExpression<Color> colors, Color seed)
         {
             return colors.Aggregate(seed, Color.Plus);
         }
 
         private class ColorSum : ObservableAggregate<Color, Color, Color>
         {
-            public static INotifyValue<Color> Create(INotifyEnumerable<Color> colors, Color seed)
+            public static INotifyValue<Color> Create(IEnumerableExpression<Color> colors, Color seed)
             {
-                return new ColorSum(seed, colors);
+                return new ColorSum(seed, colors.AsNotifiable());
             }
 
             private Color seed;

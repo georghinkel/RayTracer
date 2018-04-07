@@ -1,4 +1,5 @@
-﻿using NMF.Expressions;
+﻿using NMF.Collections.ObjectModel;
+using NMF.Expressions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -29,13 +30,13 @@ namespace RayTracer.Models
             }
         }
 
-        public NotifyCollection<SceneObject> Things { get; private set; }
-        public NotifyCollection<Light> Lights { get; private set; }
+        public IListExpression<SceneObject> Things { get; private set; }
+        public IListExpression<Light> Lights { get; private set; }
 
         public Scene()
         {
-            Things = new NotifyCollection<SceneObject>();
-            Lights = new NotifyCollection<Light>();
+            Things = new ObservableList<SceneObject>();
+            Lights = new ObservableList<Light>();
         }
 
         public IEnumerable<ISect> Intersect(Ray r)
